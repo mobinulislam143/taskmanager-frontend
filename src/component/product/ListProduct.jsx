@@ -74,9 +74,13 @@ function ListProduct(props) {
                                                 <div className="mt-4 flex justify-between">
                                                     <div>
                                                         <h3 className="text-sm text-gray-700">{item.name}</h3>
-                                                        <p className="mt-1 text-sm text-gray-500">{item.brand}</p>
+                                                        <p className="text-sm font-medium text-gray-900">${item.price}</p>
                                                     </div>
-                                                    <p className="text-sm font-medium text-gray-900">${item.price}</p>
+                                                    <div>
+
+                                                        <p className="text-sm font-medium text-gray-900">C: {item.category}</p>
+                                                        <p className="mt-1 text-sm text-gray-500">B: {item.brand}</p>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </Link>
