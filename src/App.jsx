@@ -1,42 +1,63 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom"
-import HomePage from "./page/HomePage"
-import RegistationPage from "./page/RegistationPage"
-import LoginPage from "./page/LoginPage"
-import VerifyEmailPage from "./page/VerifyEmailPage"
-import ProfilePage from "./page/ProfilePage"
-import ProductPage from "./page/ProductPage"
-import UserProductPage from "./page/UserProductPage"
-import UpadateProductPage from "./page/UpadateProductPage"
-import CreateProductPage from "./page/CreateProductPage"
-import ProductListPage from "./page/ProductListPage"
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom"
+import HomePage from "./Pages/HomePage"
+import Page404 from "./Pages/Page404"
+import { Fragment } from "react"
+import CanceledPage from "./Pages/CanceledPage"
+import CompletedPage from "./Pages/CompletedPage"
+import CreatePage from "./Pages/CreatePage"
+import DashboardPage from "./Pages/DashboardPage"
+import LoginPage from "./Pages/LoginPage"
+import RegistrationPage from "./Pages/RegistrationPage"
+import VerifyOtpPage from "./Pages/VerifyOtpPage"
+import NewPage from "./Pages/NewPage"
+import ProgressPage from "./Pages/ProgressPage"
+import FullScreenLoader from "./components/Layout/FullScreenLoader"
+import ProfilePage from "./Pages/ProfilePage"
+import { getToken } from "./helper/SessionHelper"
 
 
 function App() {
+  if(getToken()){
+    return (
+      <>
+        <Fragment>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<HomePage/>} />
+              <Route path="/login" element={<Navigate to={'/'} replace />} />
 
-  return (
-    <>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<HomePage/>} />
+              <Route path="/canceled" element={<CanceledPage/>} />
+              <Route path="/completed" element={<CompletedPage/>} />
+              <Route path="/create-task" element={<CreatePage/>} />
+              <Route path="/progress" element={<ProgressPage/>} />
+              <Route path="/new" element={<NewPage/>} />
+              <Route path="/dashboard" element={<DashboardPage/>} />
+              <Route path="/profile" element={<ProfilePage/>} />
+              <Route path="/verifyOtp" element={<VerifyOtpPage/>} />
+              <Route path="*" element={<Page404/>} />
+            </Routes>
+          </BrowserRouter>
+          <FullScreenLoader/>
+        </Fragment>
+      </>
+    )
+  } else {
+    return (
+      <Fragment>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/canceled" element={<Navigate to='/login' replace />} />
+            <Route exact path="/Login" element={<LoginPage />}/>
 
-        {/* User Router */}
-        <Route path="/registration" element={<RegistationPage/>} />
-        <Route path="/login" element={<LoginPage/>} />
-        <Route path="/VerifyEmail" element={<VerifyEmailPage/>} />
-        <Route path="/my-profile" element={<ProfilePage/>} />
-
-        {/* Product Router */}
-        <Route path="/All-product" element={<ProductPage/>} />
-        <Route path="/user-product" element={<UserProductPage/>} />
-        <Route path="/create-product" element={<CreateProductPage/>} />
-        <Route path="/update-product/:id" element={<UpadateProductPage/>} />
-        
-        <Route path="/search-by-keyword/:keyword" element={<ProductListPage/>} />
-      </Routes>
-    </BrowserRouter>
-     
-    </>
-  )
+            <Route path="/registration" element={<RegistrationPage/>} />
+            <Route path="*" element={<Page404/>} />
+          </Routes>
+        </BrowserRouter>
+        <FullScreenLoader/>
+      </Fragment>
+    )
+  }
 }
+
 
 export default App
